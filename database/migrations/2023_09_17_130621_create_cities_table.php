@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('country_id');
             $table->string('openweather_code')->unique();
             $table->string('name');
+            $table->decimal('lon', 16, 8);
+            $table->decimal('lat', 16, 8);
             $table->timestamps();
+
+            $table->unique([
+                'country_id',
+                'openweather_code',
+            ]);
         });
     }
 
