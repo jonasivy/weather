@@ -40,6 +40,9 @@ class CityService
             'name' => $params->name,
             'lon' => $params->coord->lon,
             'lat' => $params->coord->lat,
+            'population' => $params->population ?? 0,
+            'sunrise' => $params->sunrise ?? null,
+            'sunset' => $params->sunset ?? null,
         ]);
     }
 }

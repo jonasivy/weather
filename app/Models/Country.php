@@ -13,6 +13,17 @@ class Country extends Model
     use Rememberable;
     use Cacheable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'code',
+        'name',
+        'timezone',
+    ];
+
     /** @var string */
     public const CACHE_TAG = 'country_query';
 

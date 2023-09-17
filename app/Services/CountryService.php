@@ -27,7 +27,8 @@ class CountryService
         return $this->repository->firstOrCreate([
             'code' => $params['code']
         ], [
-            'name' => $params['name']
+            'name' => $params['name'],
+            'timezone' => $params['timezone'],
         ]);
     }
 }

@@ -45,6 +45,11 @@ class LogService
         return $log->fresh();
     }
 
+    /**
+     * Get latest request.
+     *
+     * @return \App\Models\Log
+     */
     public function getLatestLog()
     {
         return $this->repository->getOne([], [], [

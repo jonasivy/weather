@@ -20,6 +20,8 @@ class Forecast extends Model
      */
     protected $fillable = [
         'date_time',
+        'country_id',
+        'city_id',
         'weather_id',
         'temp',
         'temp_feels',

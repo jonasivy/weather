@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->index();
             $table->string('name');
+            $table->integer('timezone')->default(0);
             $table->timestamps();
         });
     }

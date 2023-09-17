@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('lon', 16, 8);
             $table->decimal('lat', 16, 8);
+            $table->unsignedInteger('population')->default(0);
+            $table->timestamp('sunrise')->nullable();
+            $table->timestamp('sunset')->nullable();
             $table->timestamps();
 
             $table->unique([

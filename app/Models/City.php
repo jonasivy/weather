@@ -13,6 +13,32 @@ class City extends Model
     use Rememberable;
     use Cacheable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'country_id',
+        'openweather_code',
+        'name',
+        'lon',
+        'lat',
+        'population',
+        'sunrise',
+        'sunset',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'sunrise' => 'datetime',
+        'sunset' => 'datetime',
+    ];
+
     /** @var string */
     public const CACHE_TAG = 'city_query';
 

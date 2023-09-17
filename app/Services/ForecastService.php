@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Repositories\CityRepository;
+use App\Repositories\CountryRepository;
 use App\Repositories\ForecastRepository;
 use App\Repositories\WeatherRepository;
 use Illuminate\Support\Facades\DB;
@@ -14,33 +16,49 @@ class ForecastService
     /** @var \App\Repositories\WeatherRepository */
     protected $weatherRepository;
 
+    /** @param \App\Repositories\CountryRepository */
+    protected $countryRepository;
+
+    /** @param \App\Repositories\CityRepository */
+    protected $cityRepository;
+
     /** @var string */
     public $endpoint = 'https://api.openweathermap.org';
 
     /**
      * @param \App\Repositories\ForecastRepository $repository
      * @param \App\Repositories\WeatherRepository $weatherRepository
+     * @param \App\Repositories\CountryRepository $countryRepository
+     * @param \App\Repositories\CityRepository $cityRepository
      * @return void
      */
-    public function __construct(ForecastRepository $repository, WeatherRepository $weatherRepository)
-    {
+    public function __construct(
+        ForecastRepository $repository,
+        WeatherRepository $weatherRepository,
+        CountryRepository $countryRepository,
+        CityRepository $cityRepository
+    ) {
         $this->repository = $repository;
         $this->weatherRepository = $weatherRepository;
+        $this->countryRepository = $countryRepository;
+        $this->cityRepository = $cityRepository;
     }
 
     /**
      * @param array $params
      * @return \App\Models\Forecast
      */
-    public function makeForecast($params)
+    public function makeForecast($country_id, $city_id, $params)
     {
-        $response = DB::transaction(function () use ($params) {
+        $response = DB::transaction(function () use ($country_id, $city_id, $params) {
             $main = $params['main'];
             $wind = $params['wind'];
             $weather = $params['weather'][0];
 
             return $this->repository->firstOrCreate([
                 'date_time' => $params['dt_txt'],
+                'country_id' => $country_id,
+                'city_id' => $city_id,
             ], [
                 'weather_id' => $this->weatherRepository->firstOrCreate([
                     'code' => $weather['id'],
@@ -80,8 +98,26 @@ class ForecastService
     {
         $forecasts = [];
 
+        $city = $log->response['city'];
+        $country_id = $this->countryRepository->firstOrCreate([
+            'code' => $city['country'],
+        ], [
+            'name' => $city['country'],
+        ])->id;
+        $city_id = $this->cityRepository->updateOrCreate([
+            'country_id' => $country_id,
+            'openweather_code' => $city['id'],
+        ], [
+            'name' => $city['name'],
+            'lon' => $city['coord']['lon'],
+            'lat' => $city['coord']['lat'],
+            'population' => $city['population'] ?? 0,
+            'sunrise' => $city['sunrise'],
+            'sunset' => $city['sunset'],
+        ])->id;
+
         foreach ($log->response['list'] as $forecast) {
-            $forecasts[] = $this->makeForecast($forecast)->toArray();
+            $forecasts[] = $this->makeForecast($country_id, $city_id, $forecast)->toArray();
         }
 
         return [

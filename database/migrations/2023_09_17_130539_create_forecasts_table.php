@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('forecasts', function (Blueprint $table) {
             $table->id();
             $table->dateTime('date_time')->index();
+            $table->unsignedInteger('country_id')->index();
+            $table->unsignedInteger('city_id')->index();
             $table->unsignedInteger('weather_id')->index();
             $table->decimal('temp', 8, 2);
             $table->decimal('temp_feels', 8, 2);
@@ -31,7 +33,7 @@ return new class extends Migration
             $table->decimal('visibility', 8, 2);
             $table->decimal('pop', 8, 2);
             $table->decimal('rain_3h', 8, 2)->nullable();
-            $table->decimal('sys_pod', 8, 2);
+            $table->string('sys_pod');
             $table->timestamps();
         });
     }
