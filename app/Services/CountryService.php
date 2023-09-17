@@ -17,4 +17,17 @@ class CountryService
     {
         $this->repository = $repository;
     }
+
+    /**
+     * @var array $params
+     * @return \App\Models\Country
+     */
+    public function makeCountry($params)
+    {
+        return $this->repository->firstOrCreate([
+            'code' => $params['code']
+        ], [
+            'name' => $params['name']
+        ]);
+    }
 }
