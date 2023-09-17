@@ -68,9 +68,8 @@ class ForecastCommand extends Command
     public function handle()
     {
         try {
-            // '1850147'
             $this->cityId = $this->argument('cityId');
-            
+
             $params = [
                 'id' => $this->cityId,
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
@@ -82,7 +81,6 @@ class ForecastCommand extends Command
             $this->log->update([
                 'response' => $response,
             ]);
-            // $this->log = $this->logService->getLatestLog();
             $result = $this->forecastService->makeForecastByLog($this->log);
             Log::channel('forecast')
                 ->info('COUNT:' . $result['count']);
