@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Cacheable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Forecast extends Model
 {
     use HasFactory;
+    use Cacheable;
 
     /**
      * The attributes that are mass assignable.
