@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Traits\Cacheable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Weather extends Model
 {
     use HasFactory;
+    use Rememberable;
     use Cacheable;
 
     /**
@@ -29,4 +31,10 @@ class Weather extends Model
         'description',
         'icon_path',
     ];
+
+    /** @var string */
+    public const CACHE_TAG = 'weather_query';
+
+    /** @var string */
+    public $rememberCacheTag = 'weather_query';
 }

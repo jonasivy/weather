@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Traits\Cacheable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Watson\Rememberable\Rememberable;
 
 class Forecast extends Model
 {
     use HasFactory;
+    use Rememberable;
     use Cacheable;
 
     /**
@@ -37,4 +39,18 @@ class Forecast extends Model
         'rain_3h',
         'sys_pod',
     ];
+
+    /** @var string */
+    public const CACHE_TAG = 'forecast_query';
+
+    /** @var string */
+    public $rememberCacheTag = 'forecast_query';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function weather()
+    {
+        return $this->belongsTo(Weather::class);
+    }
 }
