@@ -44,4 +44,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /** @var string */
+    public const CACHE_TAG = 'user_query';
+
+    /** @var string */
+    public $rememberCacheTag = 'user_query';
 }

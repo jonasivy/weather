@@ -31,4 +31,10 @@ class Log extends Model
         'request'  => 'array',
         'response' => 'array',
     ];
+
+    /** @var string */
+    public const CACHE_TAG = 'log_query';
+
+    /** @var string */
+    public $rememberCacheTag = 'log_query';
 }
