@@ -64,3 +64,27 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+1850147: Tokyo
+1848354: Yokohama
+1857910: Kyoto
+1853908: Osaka
+2128295: Sapporo
+1856057: Nagoya
+
+Forecast fetching command
+```sh
+php artisan app:forecast-command 1850147
+php artisan app:forecast-command 1848354
+php artisan app:forecast-command 1857910
+php artisan app:forecast-command 1853908
+php artisan app:forecast-command 2128295
+php artisan app:forecast-command 1856057
+```
+
+Install PHPRedis
+```sh
+git clone https://www.github.com/phpredis/phpredis.git
+cd phpredis
+phpize && ./configure && make && sudo make install
+```

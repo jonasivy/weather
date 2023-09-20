@@ -55,7 +55,7 @@ class ForecastService
             $wind = $params['wind'];
             $weather = $params['weather'][0];
 
-            return $this->repository->firstOrCreate([
+            return $this->repository->updateOrCreate([
                 'date_time' => $params['dt_txt'],
                 'country_id' => $country_id,
                 'city_id' => $city_id,
@@ -65,7 +65,7 @@ class ForecastService
                 ], [
                     'name' => $weather['main'],
                     'description' => $weather['description'],
-                    'icon_path' => 'https://openweathermap.org/img/wn/' . $weather['main'] . '@2x.png',
+                    'icon_path' => 'https://openweathermap.org/img/wn/' . $weather['icon'] . '@2x.png',
                 ])->id,
                 'temp' => $main['temp'],
                 'temp_feels' => $main['feels_like'],

@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('forecast')
+    ->namespace(\App\Http\Controllers::class)
+    ->group(function () {
+        Route::get('', [
+            'as'   => 'forecast.index',
+            'uses' => 'ForecastController@index',
+        ]);
+        Route::get('{cityId}', [
+            'as'   => 'forecast.index',
+            'uses' => 'ForecastController@show',
+        ]);
+    });

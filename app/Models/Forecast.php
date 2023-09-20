@@ -55,4 +55,54 @@ class Forecast extends Model
     {
         return $this->belongsTo(Weather::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCountry($query, $value)
+    {
+        return $query->where('country.name', 'like', "%{$value}%");
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCity($query, $value)
+    {
+        return $query->where('city.name', 'like', "%{$value}%");
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param datetime $start_date
+     * @param datetime $end_date
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDateBetween($query, $start_date, $end_date)
+    {
+        return $query->whereBetween('date_time', [
+            $start_date,
+            $end_date
+        ]);
+    }
 }
